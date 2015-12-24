@@ -9,42 +9,31 @@
 import UIKit
 import HomeKit
 
-class DevicesTableViewController: UITableViewController, HMHomeManagerDelegate, HMHomeDelegate {
+class DevicesTableViewController: HMCatalogViewController, HMHomeManagerDelegate {
 
     struct Identifiers {
         static let homeCell = "HomeCell"
     }
     
-    var homeManager: HMHomeManager?
-    var homes = [HMHome]()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        self.title = "ITRI Apple HomeKit Test"
-        
-        self.homeManager = HMHomeManager()
-        self.homeManager?.delegate = self
+        self.title = "ITRI HomeKit Test"
         
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateHomes", name: "UpdateHomesNotification", object: nil)
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePrimaryHome", name: "UpdatePrimaryHomeNotification", object: nil)
-
-        homes = (self.homeManager?.homes)!
-        print("\(homes)")
-        
-        for home in homes {
-            home.delegate = self
-        }
     }
 
     // delegate HMHomeManagerDelegate
     func homeManagerDidUpdateHomes(manager: HMHomeManager)
     {
         print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
-        print("\(self.homeManager?.homes)")
         
-        homes = (self.homeManager?.homes)!
-
+        if homeStore.homeManager.homes == home.roomForEntireHome()
+        {
+            print("\(homeStore.home)")
+        }
+        /*
         if homes.isEmpty
         {
             self.homeManager?.addHomeWithName("ITRI", completionHandler: { newHome, error in
@@ -55,15 +44,22 @@ class DevicesTableViewController: UITableViewController, HMHomeManagerDelegate, 
                 
                 self.homes = (self.homeManager?.homes)!
                 
-                let roomName = "Live Room"
+                let roomName = "Living room"
                 self.homeManager?.addHomeWithName(roomName, completionHandler: { newRoom, error in
                     if let _ = error {
                         print("error \(error)")
                     }
                 })
                 
-                let bedRoom = "Bed Room"
+                let bedRoom = "Bedroom"
                 self.homeManager?.addHomeWithName(bedRoom, completionHandler: { newRoom, error in
+                    if let _ = error {
+                        print("error \(error)")
+                    }
+                })
+                
+                let garage = "Garage"
+                self.homeManager?.addHomeWithName(garage, completionHandler: { newRoom, error in
                     if let _ = error {
                         print("error \(error)")
                     }
@@ -74,23 +70,22 @@ class DevicesTableViewController: UITableViewController, HMHomeManagerDelegate, 
         homes = (self.homeManager?.homes)!
         print("homes.count=\(homes.count)")
         tableView.reloadData()
-        
-        NSNotificationCenter.defaultCenter().postNotificationName("UpdateHomesNotification", object: self)
+        */
     }
     
-    @IBAction func refresh(sender: UIBarButtonItem) {
-        for h in (self.homeManager?.homes)!
-        {
-            self.homeManager?.removeHome(h, completionHandler: { _ in })
-        }
-        homes = (self.homeManager?.homes)!
-        tableView.reloadData()
+    @IBAction func refresh(sender: UIBarButtonItem)
+    {
+//        for h in (self.homeManager?.homes)!
+//        {
+//            self.homeManager?.removeHome(h, completionHandler: { _ in })
+//        }
+//        homes = (self.homeManager?.homes)!
+//        tableView.reloadData()
     }
     
     func homeManagerDidUpdatePrimaryHome(manager: HMHomeManager)
     {
         print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
-        NSNotificationCenter.defaultCenter().postNotificationName("UpdatePrimaryHomeNotification", object: self)
     }
     
     func updateHomes()
@@ -104,8 +99,8 @@ class DevicesTableViewController: UITableViewController, HMHomeManagerDelegate, 
     }
     
     // delegate HMHomeDelegate
-    func homeDidUpdateName(home: HMHome) {
-        
+    func homeDidUpdateName(home: HMHome)
+    {
     }
     
     func home(home: HMHome, didAddAccessory accessory: HMAccessory)
@@ -134,14 +129,15 @@ class DevicesTableViewController: UITableViewController, HMHomeManagerDelegate, 
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
         // #warning Incomplete implementation, return the number of rows
-        return homes.count
+        return homeStore.homeManager.homes.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(Identifiers.homeCell, forIndexPath: indexPath)
-        let home = homes[indexPath.row]
+        let home = homeStore.homeManager.homes[indexPath.row]
         
         cell.textLabel?.text = home.name
         cell.detailTextLabel?.text = NSLocalizedString("My Home", comment: "My Home")

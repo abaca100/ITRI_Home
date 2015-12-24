@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "FFE3F4D92A295DB72ACCB70DDE0864F815651AC9",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "FFE3F4D92A295DB72ACCB70DDE0864F815651AC9" : 0,
+    "CE44E2A01AB3B8BF15CBFF0E5F6DBA4CDE93D19E" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "390F05C2-39FE-47F4-955D-B1920F82C386",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "FFE3F4D92A295DB72ACCB70DDE0864F815651AC9" : "Home\/",
+    "CE44E2A01AB3B8BF15CBFF0E5F6DBA4CDE93D19E" : "HomeKitSample\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Home",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Home.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/abaca100\/Homekit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "CE44E2A01AB3B8BF15CBFF0E5F6DBA4CDE93D19E"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/abaca100\/ITRI_Home.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "FFE3F4D92A295DB72ACCB70DDE0864F815651AC9"
+    }
+  ]
+}

@@ -11,16 +11,33 @@ import CoreData
 import HomeKit
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, HMHomeManagerDelegate {
 
+    // MARK: Properties
     var window: UIWindow?
+    var homeManager: HMHomeManager?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         
+        self.homeManager = HMHomeManager()
+        self.homeManager?.delegate = self
+
         return true
     }
 
+    func homeManagerDidUpdateHomes(manager: HMHomeManager)
+    {
+        print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
+        NSNotificationCenter.defaultCenter().postNotificationName("UpdateHomesNotification", object: self)
+    }
+    
+    func homeManagerDidUpdatePrimaryHome(manager: HMHomeManager)
+    {
+        print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
+        NSNotificationCenter.defaultCenter().postNotificationName("UpdatePrimaryHomeNotification", object: self)
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -43,10 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         // Saves changes in the application's managed object context before the application terminates.
         self.saveContext()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
     }
+    
 
     // MARK: - Core Data stack
-
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "tw.org.itri.Home" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)

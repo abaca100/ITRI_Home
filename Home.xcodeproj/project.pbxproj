@@ -7,6 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		97A2B4CC1C2936C900D6B5C9 /* Array+Sorting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */; };
+		97A2B4CE1C29371900D6B5C9 /* UITableViewController+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4CD1C29371900D6B5C9 /* UITableViewController+Convenience.swift */; };
+		97A2B4D01C29376000D6B5C9 /* ModifyAccessoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */; };
+		97A2B4D21C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D11C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift */; };
+		97A2B4D41C2938BB00D6B5C9 /* HMCatalogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D31C2938BB00D6B5C9 /* HMCatalogViewController.swift */; };
+		97A2B4D61C29397100D6B5C9 /* HMHome+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */; };
+		97A2B4D81C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */; };
+		97A2B4DA1C2939E900D6B5C9 /* HMService+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */; };
+		97A2B4DC1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */; };
 		97CC08831C20F65C005B5FC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08821C20F65C005B5FC8 /* AppDelegate.swift */; };
 		97CC08881C20F65C005B5FC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97CC08861C20F65C005B5FC8 /* Main.storyboard */; };
 		97CC088B1C20F65D005B5FC8 /* Home.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08891C20F65C005B5FC8 /* Home.xcdatamodeld */; };
@@ -15,9 +24,23 @@
 		97CC08981C20FB02005B5FC8 /* HomeKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CC08971C20FB02005B5FC8 /* HomeKit.framework */; };
 		97CC089B1C20FB6B005B5FC8 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97CC089A1C20FB6B005B5FC8 /* ExternalAccessory.framework */; };
 		97CC089D1C2105D5005B5FC8 /* DevicesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC089C1C2105D5005B5FC8 /* DevicesTableViewController.swift */; };
+		97CC08A01C28F5ED005B5FC8 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC089F1C28F5ED005B5FC8 /* HomeViewController.swift */; };
+		97CC08A21C2917C7005B5FC8 /* UIViewController+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08A11C2917C7005B5FC8 /* UIViewController+Convenience.swift */; };
+		97CC08A41C2918EE005B5FC8 /* UIAlertController+Convenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08A31C2918EE005B5FC8 /* UIAlertController+Convenience.swift */; };
+		97CC08A81C29268E005B5FC8 /* HomeStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08A71C29268E005B5FC8 /* HomeStore.swift */; };
+		97CC08AA1C293299005B5FC8 /* AccessoryBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08A91C293299005B5FC8 /* AccessoryBrowserViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Sorting.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/Array+Sorting.swift"; sourceTree = "<group>"; };
+		97A2B4CD1C29371900D6B5C9 /* UITableViewController+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableViewController+Convenience.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/UITableViewController+Convenience.swift"; sourceTree = "<group>"; };
+		97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModifyAccessoryViewController.swift; path = ../../HomeKitSample/HMCatalog/Homes/Accessories/ModifyAccessoryViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		97A2B4D11C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIStoryboardSegue+IntendedDestination.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/UIStoryboardSegue+IntendedDestination.swift"; sourceTree = "<group>"; };
+		97A2B4D31C2938BB00D6B5C9 /* HMCatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HMCatalogViewController.swift; path = ../../HomeKitSample/HMCatalog/HMCatalogViewController.swift; sourceTree = "<group>"; };
+		97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMHome+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMHome+Properties.swift"; sourceTree = "<group>"; };
+		97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMActionSet+BuiltIn.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMActionSet+BuiltIn.swift"; sourceTree = "<group>"; };
+		97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMService+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMService+Properties.swift"; sourceTree = "<group>"; };
+		97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeKitObjectCollection.swift; path = ../../HomeKitSample/HMCatalog/Homes/HomeKitObjectCollection.swift; sourceTree = "<group>"; };
 		97CC087F1C20F65C005B5FC8 /* Home.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Home.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CC08821C20F65C005B5FC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97CC08871C20F65C005B5FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -29,6 +52,11 @@
 		97CC08991C20FB02005B5FC8 /* Home.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Home.entitlements; sourceTree = "<group>"; };
 		97CC089A1C20FB6B005B5FC8 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
 		97CC089C1C2105D5005B5FC8 /* DevicesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DevicesTableViewController.swift; sourceTree = "<group>"; };
+		97CC089F1C28F5ED005B5FC8 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		97CC08A11C2917C7005B5FC8 /* UIViewController+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIViewController+Convenience.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/UIViewController+Convenience.swift"; sourceTree = "<group>"; };
+		97CC08A31C2918EE005B5FC8 /* UIAlertController+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIAlertController+Convenience.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/UIAlertController+Convenience.swift"; sourceTree = "<group>"; };
+		97CC08A71C29268E005B5FC8 /* HomeStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeStore.swift; path = ../../HomeKitSample/HMCatalog/Homes/HomeStore.swift; sourceTree = "<group>"; };
+		97CC08A91C293299005B5FC8 /* AccessoryBrowserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessoryBrowserViewController.swift; path = ../../HomeKitSample/HMCatalog/Homes/Accessories/AccessoryBrowserViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,10 +93,15 @@
 		97CC08811C20F65C005B5FC8 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				97CC08861C20F65C005B5FC8 /* Main.storyboard */,
+				97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */,
+				97A2B4D31C2938BB00D6B5C9 /* HMCatalogViewController.swift */,
+				97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */,
+				97CC08A91C293299005B5FC8 /* AccessoryBrowserViewController.swift */,
 				97CC089E1C2105DE005B5FC8 /* Support Files */,
+				97CC08861C20F65C005B5FC8 /* Main.storyboard */,
 				97CC08821C20F65C005B5FC8 /* AppDelegate.swift */,
 				97CC089C1C2105D5005B5FC8 /* DevicesTableViewController.swift */,
+				97CC089F1C28F5ED005B5FC8 /* HomeViewController.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -76,6 +109,15 @@
 		97CC089E1C2105DE005B5FC8 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */,
+				97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */,
+				97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */,
+				97A2B4D11C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift */,
+				97A2B4CD1C29371900D6B5C9 /* UITableViewController+Convenience.swift */,
+				97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */,
+				97CC08A71C29268E005B5FC8 /* HomeStore.swift */,
+				97CC08A31C2918EE005B5FC8 /* UIAlertController+Convenience.swift */,
+				97CC08A11C2917C7005B5FC8 /* UIViewController+Convenience.swift */,
 				97CC08911C20F65D005B5FC8 /* Info.plist */,
 				97CC088E1C20F65D005B5FC8 /* LaunchScreen.storyboard */,
 				97CC088C1C20F65D005B5FC8 /* Assets.xcassets */,
@@ -162,9 +204,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97CC08A81C29268E005B5FC8 /* HomeStore.swift in Sources */,
+				97CC08A41C2918EE005B5FC8 /* UIAlertController+Convenience.swift in Sources */,
+				97A2B4CC1C2936C900D6B5C9 /* Array+Sorting.swift in Sources */,
+				97A2B4DA1C2939E900D6B5C9 /* HMService+Properties.swift in Sources */,
 				97CC088B1C20F65D005B5FC8 /* Home.xcdatamodeld in Sources */,
+				97A2B4D01C29376000D6B5C9 /* ModifyAccessoryViewController.swift in Sources */,
+				97CC08A21C2917C7005B5FC8 /* UIViewController+Convenience.swift in Sources */,
+				97A2B4D21C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift in Sources */,
+				97A2B4D81C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift in Sources */,
+				97A2B4CE1C29371900D6B5C9 /* UITableViewController+Convenience.swift in Sources */,
 				97CC089D1C2105D5005B5FC8 /* DevicesTableViewController.swift in Sources */,
 				97CC08831C20F65C005B5FC8 /* AppDelegate.swift in Sources */,
+				97A2B4D41C2938BB00D6B5C9 /* HMCatalogViewController.swift in Sources */,
+				97CC08AA1C293299005B5FC8 /* AccessoryBrowserViewController.swift in Sources */,
+				97A2B4D61C29397100D6B5C9 /* HMHome+Properties.swift in Sources */,
+				97CC08A01C28F5ED005B5FC8 /* HomeViewController.swift in Sources */,
+				97A2B4DC1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
