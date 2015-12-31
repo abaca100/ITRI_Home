@@ -9,7 +9,7 @@
 import UIKit
 import HomeKit
 
-class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegate, HMAccessoryBrowserDelegate {
+class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegate, HMAccessoryBrowserDelegate, HMAccessoryDelegate {
 
     // MARK: Properties
     var homeStore: HomeStore {
@@ -19,14 +19,21 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     var home: HMHome! {
         return homeStore.home
     }
+    
+    var homeManager: HMHomeManager {
+        return homeStore.homeManager
+    }
+    
 
     @IBOutlet weak var bedroom: UIButton!
     @IBOutlet weak var livingroom: UIButton!
     @IBOutlet weak var garage: UIButton!
     @IBOutlet weak var lbl_browsing: UILabel!
     @IBOutlet weak var info: UIActivityIndicatorView!
+    @IBOutlet weak var txt_msg: UITextView!
     
     var accessoryBrowser: HMAccessoryBrowser?
+    var accessory: HMAccessory?
     
     
     // MARK: - View
@@ -36,27 +43,38 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
 
         print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateHomes", name: "UpdateHomesNotification", object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updatePrimaryHome", name: "UpdatePrimaryHomeNotification", object: nil)
-
-        homeStore.home?.delegate = self
-        accessoryBrowser =  HMAccessoryBrowser()
+        homeManager.delegate = self
 
         livingroom.titleLabel?.text = ""
         bedroom.titleLabel?.text = ""
         garage.titleLabel?.text = ""
+
+        accessory = HMAccessory()
+        accessory?.delegate = self
+        
+        lbl_browsing.text = "viewDidLoad"
+
+        txt_msg.text = ""
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
     }
 
-//    override func viewWillAppear(animated: Bool)
-//    {
-//        super.viewWillAppear(animated)
-//        
-//
-//    }
+    @IBAction func refresh(sender: UIBarButtonItem)
+    {
+        updateHomes()
+    }
+    
+    override func viewWillAppear(animated: Bool)
+    {
+        super.viewWillAppear(animated)
+        accessoryBrowser =  HMAccessoryBrowser()
+        accessoryBrowser?.delegate =  self
+    }
     
     override func viewWillDisappear(animated: Bool)
     {
         accessoryBrowser?.stopSearchingForNewAccessories()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
         super.viewWillDisappear(animated)
     }
     
@@ -78,6 +96,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     func updateHomes()
     {
         print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
         
         if !(homeStore.homeManager.primaryHome?.name == nil)
         {
@@ -93,11 +113,15 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                 
                 for h in homeStore.homeManager.homes
                 {
+                    var t:String = "\t\(h.name)\n"
+                    
                     print("\(h.name)")
                     var i:Int = 0
                     for r in h.rooms
                     {
                         print("\t\(r.name)")
+                        t += "\t\t\(r.name)\n"
+
                         switch i {
                         case 0:
                             livingroom.titleLabel?.text = r.name
@@ -113,20 +137,32 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                         for a in r.accessories
                         {
                             print("\t\t\(a.name)")
+                            t += "\t\t\t\(a.name)\n"
                             
                             for s in a.services
                             {
-                                print("\t\t\t\(s.name)")
+                                print("\t\t\tservices.name=\(s.name)")
+                                print("\t\t\tservices.localizedDescription=\(s.localizedDescription)")
+                                print("\t\t\tservices.accessory.reachable=\(s.accessory?.reachable)")
+                                
+                                t += "\t" + s.name + "\n"
+                                    + "\t\t\t\tservices.localizedDescription=\(s.localizedDescription)\n"
+                                    + "\t\t\t\tservices.accessory.reachable=\(s.accessory?.reachable)\n"
                                 
                                 var j:Int = 0
                                 for c in s.characteristics
                                 {
-                                    print("\t\t\t\tc.metadata=\(c.metadata)")
+                                    print("\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)")
+                                    t += "\t\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)\n"
                                     j++
                                 }
+                                print("\t\t--------------------------------------------------------------")
+                                t += "\t\t\t--------------------------------------------------------------"
                             }
+                            
                         }
                     }
+                    txt_msg.text = txt_msg.text + t
                 }
                 
                 accessoryBrowser?.startSearchingForNewAccessories()
@@ -136,10 +172,12 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         }
         else
         {
-            print("\(homeStore.homeManager)")
-            homeStore.homeManager.addHomeWithName("ITRI", completionHandler: { newHome, error in
+            let myHome = "ITRI"
+            homeStore.homeManager.addHomeWithName(myHome, completionHandler: { newHome, error in
                 if let _ = error {
-                    print("error \(error)")
+                    print("\taddHomeWithName: \(error!)")
+                } else {
+                    self.updatePrimaryHome()
                 }
             })
             
@@ -147,6 +185,13 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
             livingroom.titleLabel?.text = "_"
             garage.titleLabel?.text = "_"
         }
+
+        for h in homeManager.homes
+        {
+            h.delegate = self;
+            print("\t\thomeManager.primaryHome?.name=\(h)")
+        }
+
     }
     
     func updatePrimaryHome()
@@ -181,20 +226,46 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         }
     }
     
+    
+    // MARK: - HMHomeManagerDelegate Methods
+    
+    /**
+    Reloads data and view.
+    
+    This view controller, in most cases, will remain the home manager delegate.
+    For this reason, this method will close all modal views and pop all detail views
+    if the home store's current home is no longer in the home manager's list of homes.
+    */
+    func homeManagerDidUpdateHomes(manager: HMHomeManager) {
+        print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
+
+        updateHomes()
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
+    }
+
+    
     // MARK: - HMHomeDelegate
     func homeDidUpdateName(home: HMHome)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
     }
     
     func home(home: HMHome, didAddAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
+        txt_msg.scrollRangeToVisible(txt_msg.selectedRange)
     }
     
     func home(home: HMHome, didRemoveAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
     }
     
     // MARK: - deinit
@@ -206,15 +277,20 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     // MARK: - 
     func accessoryBrowser(browser: HMAccessoryBrowser, didFindNewAccessory accessory: HMAccessory)
     {
-        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
         print("\t\(accessory.name)")
         lbl_browsing.text = "didFindNewAccessory()"
-        info.stopAnimating()
+        //info.stopAnimating()
+
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__).name=\(accessory.name)\n"
+        txt_msg.text = str
     }
     
     func accessoryBrowser(browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        txt_msg.text = str
     }
     
     
@@ -228,26 +304,23 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     }
     */
 
-    func displayedServiceTypeForRow(row: Int) -> String {
-        let serviceTypes = HMService.validAssociatedServiceTypes
-        if row < serviceTypes.count {
-            return HMService.localizedDescriptionForServiceType(serviceTypes[row])
-        }
-        
-        return NSLocalizedString("None", comment: "None")
+    func accessory(accessory: HMAccessory, didUpdateAssociatedServiceTypeForService service: HMService)
+    {
+        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
     }
-
-    func serviceTypeIsSelectedForRow(row: Int, service: HMService) -> Bool {
-        let serviceTypes = HMService.validAssociatedServiceTypes
-        if row >= serviceTypes.count {
-            return service.associatedServiceType == nil
-        }
-        
-        if let associatedServiceType = service.associatedServiceType {
-            return serviceTypes[row] == associatedServiceType
-        }
-        
-        return false
+    
+    func accessoryDidUpdateServices(accessory: HMAccessory)
+    {
+        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
     }
-
+    
+    func accessoryDidUpdateReachability(accessory: HMAccessory)
+    {
+        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+    }
+    
+    func accessory(accessory: HMAccessory, service: HMService, didUpdateValueForCharacteristic characteristic: HMCharacteristic)
+    {
+        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+    }
 }

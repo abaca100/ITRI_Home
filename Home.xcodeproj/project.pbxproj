@@ -16,6 +16,10 @@
 		97A2B4D81C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */; };
 		97A2B4DA1C2939E900D6B5C9 /* HMService+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */; };
 		97A2B4DC1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */; };
+		97B66AEF1C33B9BA002892F8 /* AccessoryUpdateController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B66AEE1C33B9BA002892F8 /* AccessoryUpdateController.swift */; };
+		97B66AF11C33BA19002892F8 /* CharacteristicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B66AF01C33BA19002892F8 /* CharacteristicCell.swift */; };
+		97B66AF31C33BA2D002892F8 /* CharacteristicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97B66AF21C33BA2D002892F8 /* CharacteristicCell.xib */; };
+		97B66AF51C33BA78002892F8 /* HMCharacteristic+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */; };
 		97CC08831C20F65C005B5FC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08821C20F65C005B5FC8 /* AppDelegate.swift */; };
 		97CC08881C20F65C005B5FC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97CC08861C20F65C005B5FC8 /* Main.storyboard */; };
 		97CC088B1C20F65D005B5FC8 /* Home.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08891C20F65C005B5FC8 /* Home.xcdatamodeld */; };
@@ -41,6 +45,10 @@
 		97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMActionSet+BuiltIn.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMActionSet+BuiltIn.swift"; sourceTree = "<group>"; };
 		97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMService+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMService+Properties.swift"; sourceTree = "<group>"; };
 		97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeKitObjectCollection.swift; path = ../../HomeKitSample/HMCatalog/Homes/HomeKitObjectCollection.swift; sourceTree = "<group>"; };
+		97B66AEE1C33B9BA002892F8 /* AccessoryUpdateController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AccessoryUpdateController.swift; path = ../../HomeKitSample/HMCatalog/Homes/Accessories/AccessoryUpdateController.swift; sourceTree = "<group>"; };
+		97B66AF01C33BA19002892F8 /* CharacteristicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CharacteristicCell.swift; path = "../../HomeKitSample/HMCatalog/Homes/Accessories/Services/Characteristic Cells/CharacteristicCell.swift"; sourceTree = "<group>"; };
+		97B66AF21C33BA2D002892F8 /* CharacteristicCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CharacteristicCell.xib; path = "../../HomeKitSample/HMCatalog/Homes/Accessories/Services/Characteristic Cells/CharacteristicCell.xib"; sourceTree = "<group>"; };
+		97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMCharacteristic+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMCharacteristic+Properties.swift"; sourceTree = "<group>"; };
 		97CC087F1C20F65C005B5FC8 /* Home.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Home.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CC08821C20F65C005B5FC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97CC08871C20F65C005B5FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -93,6 +101,9 @@
 		97CC08811C20F65C005B5FC8 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				97B66AF21C33BA2D002892F8 /* CharacteristicCell.xib */,
+				97B66AF01C33BA19002892F8 /* CharacteristicCell.swift */,
+				97B66AEE1C33B9BA002892F8 /* AccessoryUpdateController.swift */,
 				97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */,
 				97A2B4D31C2938BB00D6B5C9 /* HMCatalogViewController.swift */,
 				97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */,
@@ -109,6 +120,7 @@
 		97CC089E1C2105DE005B5FC8 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
+				97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */,
 				97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */,
 				97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */,
 				97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */,
@@ -191,6 +203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				97B66AF31C33BA2D002892F8 /* CharacteristicCell.xib in Resources */,
 				97CC08901C20F65D005B5FC8 /* LaunchScreen.storyboard in Resources */,
 				97CC088D1C20F65D005B5FC8 /* Assets.xcassets in Resources */,
 				97CC08881C20F65C005B5FC8 /* Main.storyboard in Resources */,
@@ -205,6 +218,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				97CC08A81C29268E005B5FC8 /* HomeStore.swift in Sources */,
+				97B66AEF1C33B9BA002892F8 /* AccessoryUpdateController.swift in Sources */,
 				97CC08A41C2918EE005B5FC8 /* UIAlertController+Convenience.swift in Sources */,
 				97A2B4CC1C2936C900D6B5C9 /* Array+Sorting.swift in Sources */,
 				97A2B4DA1C2939E900D6B5C9 /* HMService+Properties.swift in Sources */,
@@ -221,6 +235,8 @@
 				97A2B4D61C29397100D6B5C9 /* HMHome+Properties.swift in Sources */,
 				97CC08A01C28F5ED005B5FC8 /* HomeViewController.swift in Sources */,
 				97A2B4DC1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift in Sources */,
+				97B66AF51C33BA78002892F8 /* HMCharacteristic+Properties.swift in Sources */,
+				97B66AF11C33BA19002892F8 /* CharacteristicCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
