@@ -8,6 +8,7 @@
 
 import UIKit
 import HomeKit
+import Crashlytics
 
 class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegate, HMAccessoryBrowserDelegate, HMAccessoryDelegate {
 
@@ -57,6 +58,16 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         txt_msg.text = ""
         let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
         txt_msg.text = str
+        
+        let button = UIButton(type: UIButtonType.RoundedRect)
+        button.frame = CGRectMake(20, 90, 100, 30)
+        button.setTitle("Crash", forState: UIControlState.Normal)
+        button.addTarget(self, action: "crashButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+        view.addSubview(button)
+    }
+    
+    @IBAction func crashButtonTapped(sender: AnyObject) {
+        Crashlytics.sharedInstance().crash()
     }
 
     @IBAction func refresh(sender: UIBarButtonItem)

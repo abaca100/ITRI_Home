@@ -20,6 +20,8 @@
 		97B66AF11C33BA19002892F8 /* CharacteristicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B66AF01C33BA19002892F8 /* CharacteristicCell.swift */; };
 		97B66AF31C33BA2D002892F8 /* CharacteristicCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 97B66AF21C33BA2D002892F8 /* CharacteristicCell.xib */; };
 		97B66AF51C33BA78002892F8 /* HMCharacteristic+Properties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */; };
+		97B66AF91C352341002892F8 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B66AF71C352341002892F8 /* Fabric.framework */; };
+		97B66AFA1C352341002892F8 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 97B66AF81C352341002892F8 /* Crashlytics.framework */; };
 		97CC08831C20F65C005B5FC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08821C20F65C005B5FC8 /* AppDelegate.swift */; };
 		97CC08881C20F65C005B5FC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97CC08861C20F65C005B5FC8 /* Main.storyboard */; };
 		97CC088B1C20F65D005B5FC8 /* Home.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 97CC08891C20F65C005B5FC8 /* Home.xcdatamodeld */; };
@@ -49,6 +51,8 @@
 		97B66AF01C33BA19002892F8 /* CharacteristicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CharacteristicCell.swift; path = "../../HomeKitSample/HMCatalog/Homes/Accessories/Services/Characteristic Cells/CharacteristicCell.swift"; sourceTree = "<group>"; };
 		97B66AF21C33BA2D002892F8 /* CharacteristicCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = CharacteristicCell.xib; path = "../../HomeKitSample/HMCatalog/Homes/Accessories/Services/Characteristic Cells/CharacteristicCell.xib"; sourceTree = "<group>"; };
 		97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMCharacteristic+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMCharacteristic+Properties.swift"; sourceTree = "<group>"; };
+		97B66AF71C352341002892F8 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		97B66AF81C352341002892F8 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		97CC087F1C20F65C005B5FC8 /* Home.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Home.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		97CC08821C20F65C005B5FC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		97CC08871C20F65C005B5FC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -74,6 +78,8 @@
 			files = (
 				97CC089B1C20FB6B005B5FC8 /* ExternalAccessory.framework in Frameworks */,
 				97CC08981C20FB02005B5FC8 /* HomeKit.framework in Frameworks */,
+				97B66AFA1C352341002892F8 /* Crashlytics.framework in Frameworks */,
+				97B66AF91C352341002892F8 /* Fabric.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +89,8 @@
 		97CC08761C20F65B005B5FC8 = {
 			isa = PBXGroup;
 			children = (
+				97B66AF71C352341002892F8 /* Fabric.framework */,
+				97B66AF81C352341002892F8 /* Crashlytics.framework */,
 				97CC089A1C20FB6B005B5FC8 /* ExternalAccessory.framework */,
 				97CC08971C20FB02005B5FC8 /* HomeKit.framework */,
 				97CC08811C20F65C005B5FC8 /* Home */,
@@ -149,6 +157,7 @@
 				97CC087B1C20F65C005B5FC8 /* Sources */,
 				97CC087C1C20F65C005B5FC8 /* Frameworks */,
 				97CC087D1C20F65C005B5FC8 /* Resources */,
+				97B66AF61C3522D6002892F8 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -211,6 +220,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		97B66AF61C3522D6002892F8 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 86495458bd6bf24e437341372de304f059c9071f 3312786962b360c6a5c81aa7758b65f9382e930dcca4411185be6ec0594d2ae0";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		97CC087B1C20F65C005B5FC8 /* Sources */ = {
@@ -352,6 +377,10 @@
 				CODE_SIGN_ENTITLEMENTS = Home/Home.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Home/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tw.org.itri.Home;
@@ -367,6 +396,10 @@
 				CODE_SIGN_ENTITLEMENTS = Home/Home.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = Home/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = tw.org.itri.Home;

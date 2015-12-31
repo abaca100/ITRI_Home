@@ -9,6 +9,8 @@
 import UIKit
 import CoreData
 import HomeKit
+import Fabric
+import Crashlytics
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, HMHomeManagerDelegate {
@@ -22,6 +24,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, HMHomeManagerDelegate {
         
         self.homeManager = HMHomeManager()
         self.homeManager?.delegate = self
+        
+        Fabric.with([Crashlytics.self])
 
         return true
     }
