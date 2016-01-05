@@ -38,12 +38,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Sorting.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/Array+Sorting.swift"; sourceTree = "<group>"; };
+		97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Array+Sorting.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/Array+Sorting.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		97A2B4CD1C29371900D6B5C9 /* UITableViewController+Convenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableViewController+Convenience.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/UITableViewController+Convenience.swift"; sourceTree = "<group>"; };
 		97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ModifyAccessoryViewController.swift; path = ../../HomeKitSample/HMCatalog/Homes/Accessories/ModifyAccessoryViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		97A2B4D11C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIStoryboardSegue+IntendedDestination.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/UIStoryboardSegue+IntendedDestination.swift"; sourceTree = "<group>"; };
 		97A2B4D31C2938BB00D6B5C9 /* HMCatalogViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HMCatalogViewController.swift; path = ../../HomeKitSample/HMCatalog/HMCatalogViewController.swift; sourceTree = "<group>"; };
-		97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMHome+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMHome+Properties.swift"; sourceTree = "<group>"; };
+		97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMHome+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMHome+Properties.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMActionSet+BuiltIn.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMActionSet+BuiltIn.swift"; sourceTree = "<group>"; };
 		97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "HMService+Properties.swift"; path = "../../HomeKitSample/HMCatalog/Supporting Files/HMService+Properties.swift"; sourceTree = "<group>"; };
 		97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeKitObjectCollection.swift; path = ../../HomeKitSample/HMCatalog/Homes/HomeKitObjectCollection.swift; sourceTree = "<group>"; };
@@ -114,8 +114,8 @@
 				97B66AEE1C33B9BA002892F8 /* AccessoryUpdateController.swift */,
 				97A2B4DB1C2BD7A700D6B5C9 /* HomeKitObjectCollection.swift */,
 				97A2B4D31C2938BB00D6B5C9 /* HMCatalogViewController.swift */,
-				97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */,
 				97CC08A91C293299005B5FC8 /* AccessoryBrowserViewController.swift */,
+				97A2B4CF1C29376000D6B5C9 /* ModifyAccessoryViewController.swift */,
 				97CC089E1C2105DE005B5FC8 /* Support Files */,
 				97CC08861C20F65C005B5FC8 /* Main.storyboard */,
 				97CC08821C20F65C005B5FC8 /* AppDelegate.swift */,
@@ -128,16 +128,16 @@
 		97CC089E1C2105DE005B5FC8 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */,
-				97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */,
+				97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */,
 				97A2B4D71C2939B000D6B5C9 /* HMActionSet+BuiltIn.swift */,
+				97B66AF41C33BA78002892F8 /* HMCharacteristic+Properties.swift */,
 				97A2B4D51C29397100D6B5C9 /* HMHome+Properties.swift */,
+				97A2B4D91C2939E900D6B5C9 /* HMService+Properties.swift */,
+				97CC08A31C2918EE005B5FC8 /* UIAlertController+Convenience.swift */,
 				97A2B4D11C29379E00D6B5C9 /* UIStoryboardSegue+IntendedDestination.swift */,
 				97A2B4CD1C29371900D6B5C9 /* UITableViewController+Convenience.swift */,
-				97A2B4CB1C2936C900D6B5C9 /* Array+Sorting.swift */,
-				97CC08A71C29268E005B5FC8 /* HomeStore.swift */,
-				97CC08A31C2918EE005B5FC8 /* UIAlertController+Convenience.swift */,
 				97CC08A11C2917C7005B5FC8 /* UIViewController+Convenience.swift */,
+				97CC08A71C29268E005B5FC8 /* HomeStore.swift */,
 				97CC08911C20F65D005B5FC8 /* Info.plist */,
 				97CC088E1C20F65D005B5FC8 /* LaunchScreen.storyboard */,
 				97CC088C1C20F65D005B5FC8 /* Assets.xcassets */,

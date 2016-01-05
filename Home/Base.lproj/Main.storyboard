@@ -18,7 +18,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="HomeCell" textLabel="Z3Z-Mm-6l3" detailTextLabel="eMJ-pB-ldf" style="IBUITableViewCellStyleSubtitle" id="Wy8-9a-oCj">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Wy8-9a-oCj" id="Wwt-K1-lG9">
                                     <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
@@ -82,9 +82,6 @@
                                 <color key="backgroundColor" red="0.16862745100000001" green="0.56470588239999997" blue="0.74901960779999999" alpha="1" colorSpace="calibratedRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="Bedroom"/>
-                                <connections>
-                                    <segue destination="4pJ-Qv-fdk" kind="show" id="0Vt-li-zFh"/>
-                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PYq-Dy-LpH">
                                 <rect key="frame" x="107" y="422" width="80" height="30"/>
@@ -120,9 +117,14 @@
                                 <rect key="frame" x="0.0" y="487" width="600" height="113"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
-                                <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                <variation key="heightClass=regular-widthClass=compact" layoutMarginsFollowReadableWidth="YES"/>
+                                <variation key="heightClass=regular-widthClass=compact" layoutMarginsFollowReadableWidth="YES">
+                                    <fontDescription key="fontDescription" type="system" pointSize="11"/>
+                                </variation>
+                                <connections>
+                                    <outlet property="delegate" destination="W6m-Uq-mkZ" id="beY-3k-cL2"/>
+                                </connections>
                             </textView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -154,7 +156,7 @@
                         <rightBarButtonItems>
                             <barButtonItem image="configure" id="mwK-Pm-Lvn">
                                 <connections>
-                                    <segue destination="GCd-dh-avb" kind="show" id="AzW-1K-DX5"/>
+                                    <segue destination="4pJ-Qv-fdk" kind="show" id="0SE-CO-mo3"/>
                                 </connections>
                             </barButtonItem>
                             <barButtonItem systemItem="refresh" id="Lwr-sX-dc1">
@@ -293,34 +295,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aSW-f9-ub9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-417" y="1189"/>
-        </scene>
-        <!--Table View Controller-->
-        <scene sceneID="nKy-SF-Lhq">
-            <objects>
-                <tableViewController id="DKB-WC-9vo" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="jqx-sB-xUu">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="NTL-Qs-yeT">
-                                <rect key="frame" x="0.0" y="28" width="600" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="NTL-Qs-yeT" id="A1H-VQ-VI5">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="DKB-WC-9vo" id="2cG-ea-e54"/>
-                            <outlet property="delegate" destination="DKB-WC-9vo" id="dxb-uJ-Cav"/>
-                        </connections>
-                    </tableView>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bFe-LU-DAj" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-383" y="1974"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Xnf-rW-1qz">

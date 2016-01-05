@@ -56,14 +56,21 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         lbl_browsing.text = "viewDidLoad"
 
         txt_msg.text = ""
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
         
-        let button = UIButton(type: UIButtonType.RoundedRect)
-        button.frame = CGRectMake(20, 90, 100, 30)
-        button.setTitle("Crash", forState: UIControlState.Normal)
-        button.addTarget(self, action: "crashButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        view.addSubview(button)
+//        let button = UIButton(type: UIButtonType.RoundedRect)
+//        button.frame = CGRectMake(20, 90, 100, 30)
+//        button.setTitle("Crash", forState: UIControlState.Normal)
+//        button.addTarget(self, action: "crashButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
+//        view.addSubview(button)
+    }
+    
+    func contentChanged()
+    {
+        let l = txt_msg.text.characters.count
+        let range = NSMakeRange(1, l)
+        txt_msg.scrollRangeToVisible(range)
     }
     
     @IBAction func crashButtonTapped(sender: AnyObject) {
@@ -72,7 +79,12 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
 
     @IBAction func refresh(sender: UIBarButtonItem)
     {
+        txt_msg.text = txt_msg.text + "\n"
+        contentChanged()
         updateHomes()
+        
+        print("homeStore=\(homeStore)")
+        print("homeStore.home=\(homeStore.home)")
     }
     
     override func viewWillAppear(animated: Bool)
@@ -107,7 +119,7 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     func updateHomes()
     {
         print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
         
         if !(homeStore.homeManager.primaryHome?.name == nil)
@@ -120,6 +132,7 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
 //            self.title = "clear everything"
             if let _ = homeStore.homeManager.primaryHome
             {
+                homeStore.home = homeStore.homeManager.primaryHome
                 self.title = "PrimaryHome: \(homeStore.homeManager.primaryHome!.name)"
                 
                 for h in homeStore.homeManager.homes
@@ -156,8 +169,7 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                                 print("\t\t\tservices.localizedDescription=\(s.localizedDescription)")
                                 print("\t\t\tservices.accessory.reachable=\(s.accessory?.reachable)")
                                 
-                                t += "\t" + s.name + "\n"
-                                    + "\t\t\t\tservices.localizedDescription=\(s.localizedDescription)\n"
+                                t += "\t\t\t\tservices.localizedDescription=\(s.localizedDescription)\n"
                                     + "\t\t\t\tservices.accessory.reachable=\(s.accessory?.reachable)\n"
                                 
                                 var j:Int = 0
@@ -168,12 +180,13 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                                     j++
                                 }
                                 print("\t\t--------------------------------------------------------------")
-                                t += "\t\t\t--------------------------------------------------------------"
+                                t += "\t\t\t\t--------------------------------------------------------------\n"
                             }
                             
                         }
                     }
-                    txt_msg.text = txt_msg.text + t
+                    txt_msg.text = txt_msg.text + t + "\n"
+                    contentChanged()
                 }
                 
                 accessoryBrowser?.startSearchingForNewAccessories()
@@ -185,10 +198,23 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         {
             let myHome = "ITRI"
             homeStore.homeManager.addHomeWithName(myHome, completionHandler: { newHome, error in
-                if let _ = error {
+                if let _ = error
+                {
                     print("\taddHomeWithName: \(error!)")
-                } else {
-                    self.updatePrimaryHome()
+                    self.txt_msg.text = self.txt_msg.text + "\n\(error)" + "\n"
+                    self.contentChanged()
+                }
+                else
+                {
+                    self.homeManager.updatePrimaryHome(self.homeStore.homeManager.homes[0]) { error in
+                        if let error = error {
+                            self.displayError(error)
+                            return
+                        }
+                        
+                        print("\(self.homeManager.primaryHome)")
+                        self.updatePrimaryHome()
+                    }
                 }
             })
             
@@ -234,6 +260,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
             })
             
             self.title = "PrimaryHome: \(homeStore.homeManager.primaryHome!.name)"
+            txt_msg.text = txt_msg.text + "\n" + self.title! + "\n"
+            self.updateHomes()
         }
     }
     
@@ -251,7 +279,7 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         print("\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)")
 
         updateHomes()
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
     }
 
@@ -260,23 +288,25 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     func homeDidUpdateName(home: HMHome)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
+        contentChanged()
     }
     
     func home(home: HMHome, didAddAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
-        txt_msg.scrollRangeToVisible(txt_msg.selectedRange)
+        contentChanged()
     }
     
     func home(home: HMHome, didRemoveAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
+        contentChanged()
     }
     
     // MARK: - deinit
@@ -293,14 +323,15 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         lbl_browsing.text = "didFindNewAccessory()"
         //info.stopAnimating()
 
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__).name=\(accessory.name)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__).name=\(accessory.name)\n"
         txt_msg.text = str
+        contentChanged()
     }
     
     func accessoryBrowser(browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
-        let str:String = txt_msg.text + "\(NSStringFromClass(self.dynamicType)).\(__FUNCTION__)\n"
+        let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
     }
     
