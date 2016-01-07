@@ -232,9 +232,6 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="kWb-UB-NEg" kind="show" identifier="Add Accessory" id="Cz1-6G-Csu"/>
-                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" accessoryType="checkmark" indentationWidth="10" reuseIdentifier="AddedAccessoryCell" textLabel="Gah-iT-OB9" detailTextLabel="rrh-KN-ReL" style="IBUITableViewCellStyleSubtitle" id="ZI5-cY-Ldh">
                                 <rect key="frame" x="0.0" y="202" width="600" height="44"/>
@@ -273,6 +270,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <segue destination="kWb-UB-NEg" kind="show" identifier="Add Accessory" id="wrR-qc-Pak"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="glj-aB-fXc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

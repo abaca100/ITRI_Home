@@ -82,9 +82,6 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         txt_msg.text = txt_msg.text + "\n"
         contentChanged()
         updateHomes()
-        
-        print("homeStore=\(homeStore)")
-        print("homeStore.home=\(homeStore.home)")
     }
     
     override func viewWillAppear(animated: Bool)
