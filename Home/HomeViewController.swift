@@ -62,7 +62,9 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         
         lbl_browsing.text = "viewDidLoad"
 
+        txt_msg.layoutManager.allowsNonContiguousLayout = false
         txt_msg.text = ""
+        
         let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
         
@@ -74,15 +76,17 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     {
         txt_msg.text = txt_msg.text + str
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { [unowned self] in
+        //dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { [unowned self] in
+        dispatch_async(self.updateQueue) {
+        
             // do some task
-            dispatch_async(dispatch_get_main_queue(), { [unowned self] in
+            dispatch_async(dispatch_get_main_queue(), {
                 // update some UI
                 let l = self.txt_msg.text.characters.count
                 let range = NSMakeRange(1, l)
                 self.txt_msg.scrollRangeToVisible(range)
-                });
             });
+        };
     }
     
     @IBAction func refresh(sender: UIBarButtonItem)
@@ -116,7 +120,11 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "bg", name: UIApplicationWillResignActiveNotification, object: nil)
         if updateValueTimer != nil {
             updateValueTimer.fire()
-            dispatch_resume(newTimer)
+        }
+        if newTimer != nil {
+            newTimer = CreateDispatchTimer(UInt64(2 * Double(NSEC_PER_SEC)), leeway: UInt64(0.05 * Double(NSEC_PER_SEC)), queue: dispatch_get_main_queue(), block: {
+                self.updateCharacteristics()
+            })
         }
     }
     
@@ -182,7 +190,7 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                             }
                             
                             //updateValueTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateCharacteristics", userInfo: nil, repeats: true)
-                            newTimer = CreateDispatchTimer(UInt64(1 * Double(NSEC_PER_SEC)), leeway: UInt64(0.05 * Double(NSEC_PER_SEC)), queue: dispatch_get_main_queue(), block: {
+                            newTimer = CreateDispatchTimer(UInt64(2 * Double(NSEC_PER_SEC)), leeway: UInt64(0.05 * Double(NSEC_PER_SEC)), queue: dispatch_get_main_queue(), block: {
                                 self.updateCharacteristics()
                             })
                         }
@@ -207,7 +215,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                                 {
                                     c.notificationEnabled
                                     c.readValueWithCompletionHandler { error in
-                                        dispatch_sync(self.updateQueue) {
+                                        //dispatch_sync(self.updateQueue) {
+                                        dispatch_async(self.updateQueue) {
                                             
                                             dispatch_async(dispatch_get_main_queue()) {
                                                 t += "\t\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)\n"
@@ -309,7 +318,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                 {
                     c.notificationEnabled
                     c.readValueWithCompletionHandler { error in
-                        dispatch_sync(self.updateQueue) {
+                        //dispatch_sync(self.updateQueue) {
+                        dispatch_async(self.updateQueue) {
                             
                             //self.contentChanged("\(s.name):\(s.localizedDescription)\n")
                             dispatch_async(dispatch_get_main_queue()) {
@@ -513,12 +523,13 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
             } else if characteristic.localizedDescription.hasPrefix("目前溫") {
                 self.lbl3.text = "\(characteristic.localizedDescription):\(characteristic.value!)"
             }
+            //contentChanged(characteristic.localizedDescription + "\n")
         }
         
         //print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
         characteristic.readValueWithCompletionHandler { error in
-            dispatch_sync(self.updateQueue) {
-                
+            //dispatch_sync(self.updateQueue) {
+            dispatch_async(self.updateQueue) {
                 dispatch_async(dispatch_get_main_queue()) {
                     print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)=\(characteristic.localizedDescription):\(characteristic.value)")
                 }
