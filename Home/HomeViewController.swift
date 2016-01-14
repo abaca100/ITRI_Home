@@ -25,6 +25,10 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         return homeStore.homeManager
     }
     
+    let updateQueue = dispatch_queue_create("org.itri.HMCatalog.CharacteristicUpdateQueue", DISPATCH_QUEUE_SERIAL)
+    var updateValueTimer: NSTimer!
+    var myAccessories = [HMAccessory]()
+    var newTimer:dispatch_source_t!
 
     @IBOutlet weak var bedroom: UIButton!
     @IBOutlet weak var livingroom: UIButton!
@@ -32,6 +36,9 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     @IBOutlet weak var lbl_browsing: UILabel!
     @IBOutlet weak var info: UIActivityIndicatorView!
     @IBOutlet weak var txt_msg: UITextView!
+    @IBOutlet weak var lbl1: UILabel!
+    @IBOutlet weak var lbl2: UILabel!
+    @IBOutlet weak var lbl3: UILabel!
     
     var accessoryBrowser: HMAccessoryBrowser?
     var accessory: HMAccessory?
@@ -59,45 +66,59 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         let str:String = txt_msg.text + "\(__FUNCTION__)\n"
         txt_msg.text = str
         
-//        let button = UIButton(type: UIButtonType.RoundedRect)
-//        button.frame = CGRectMake(20, 90, 100, 30)
-//        button.setTitle("Crash", forState: UIControlState.Normal)
-//        button.addTarget(self, action: "crashButtonTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-//        view.addSubview(button)
+        accessoryBrowser =  HMAccessoryBrowser()
+        accessoryBrowser?.delegate =  self
     }
     
-    func contentChanged()
+    func contentChanged(str: String)
     {
-        let l = txt_msg.text.characters.count
-        let range = NSMakeRange(1, l)
-        txt_msg.scrollRangeToVisible(range)
+        txt_msg.text = txt_msg.text + str
+        
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), { [unowned self] in
+            // do some task
+            dispatch_async(dispatch_get_main_queue(), { [unowned self] in
+                // update some UI
+                let l = self.txt_msg.text.characters.count
+                let range = NSMakeRange(1, l)
+                self.txt_msg.scrollRangeToVisible(range)
+                });
+            });
     }
     
-    @IBAction func crashButtonTapped(sender: AnyObject) {
-        Crashlytics.sharedInstance().crash()
-    }
-
     @IBAction func refresh(sender: UIBarButtonItem)
     {
-        txt_msg.text = txt_msg.text + "\n"
-        contentChanged()
+        contentChanged("\n")
         updateHomes()
     }
     
     override func viewWillAppear(animated: Bool)
     {
         super.viewWillAppear(animated)
-        accessoryBrowser =  HMAccessoryBrowser()
-        accessoryBrowser?.delegate =  self
+        fg()
     }
     
     override func viewWillDisappear(animated: Bool)
     {
-        accessoryBrowser?.stopSearchingForNewAccessories()
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        bg()
         super.viewWillDisappear(animated)
     }
     
+    func bg() {
+        if updateValueTimer != nil {
+            updateValueTimer.invalidate()
+        }
+        RemoveDispatchSource(newTimer)
+        accessoryBrowser?.stopSearchingForNewAccessories()
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+    }
+ 
+    func fg() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "bg", name: UIApplicationWillResignActiveNotification, object: nil)
+        if updateValueTimer != nil {
+            updateValueTimer.fire()
+            dispatch_resume(newTimer)
+        }
+    }
     
     override func didReceiveMemoryWarning()
     {
@@ -152,13 +173,25 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                             garage.titleLabel?.text = r.name
                         default: break
                         }
-                        
                         i++
+                        
+                        if (r.accessories.count > 0) {
+                            for (var i=0; i<r.accessories.count; i++) {
+                                myAccessories.append(r.accessories[i])
+                                print("\(i)=\(myAccessories[i])")
+                            }
+                            
+                            //updateValueTimer = NSTimer.scheduledTimerWithTimeInterval(0.1, target: self, selector: "updateCharacteristics", userInfo: nil, repeats: true)
+                            newTimer = CreateDispatchTimer(UInt64(1 * Double(NSEC_PER_SEC)), leeway: UInt64(0.05 * Double(NSEC_PER_SEC)), queue: dispatch_get_main_queue(), block: {
+                                self.updateCharacteristics()
+                            })
+                        }
                         
                         for a in r.accessories
                         {
                             print("\t\t\(a.name)")
                             t += "\t\t\t\(a.name)\n"
+                            a.delegate = self
                             
                             for s in a.services
                             {
@@ -172,8 +205,35 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                                 var j:Int = 0
                                 for c in s.characteristics
                                 {
-                                    print("\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)")
-                                    t += "\t\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)\n"
+                                    c.notificationEnabled
+                                    c.readValueWithCompletionHandler { error in
+                                        dispatch_sync(self.updateQueue) {
+                                            
+                                            dispatch_async(dispatch_get_main_queue()) {
+                                                t += "\t\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)\n"
+                                                //self.txt_msg.text = self.txt_msg.text + t + "\n"
+                                                self.contentChanged(t + "\n")
+                                                print("\t\t\t\tcharacteristics=\(c.localizedDescription):\(c.value)")
+
+                                                if (c.localizedDescription.hasPrefix("目前")) {
+                                                    if c.localizedDescription.hasPrefix("目前家") {
+                                                        if let state = c.value {
+                                                            if state.integerValue == 1 {
+                                                                self.lbl1.text = "\(c.localizedDescription):Closed"
+                                                            } else {
+                                                                self.lbl1.text = "\(c.localizedDescription):Open"
+                                                            }
+                                                        }
+                                                    } else if c.localizedDescription.hasPrefix("目前相") {
+                                                        self.lbl2.text = "\(c.localizedDescription):\(c.value!)"
+                                                    } else if c.localizedDescription.hasPrefix("目前溫") {
+                                                        self.lbl3.text = "\(c.localizedDescription):\(c.value!)"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
                                     j++
                                 }
                                 print("\t\t--------------------------------------------------------------")
@@ -182,8 +242,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                             
                         }
                     }
-                    txt_msg.text = txt_msg.text + t + "\n"
-                    contentChanged()
+                    //txt_msg.text = txt_msg.text + t + "\n"
+                    contentChanged(t + "\n")
                 }
                 
                 accessoryBrowser?.startSearchingForNewAccessories()
@@ -198,8 +258,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
                 if let _ = error
                 {
                     print("\taddHomeWithName: \(error!)")
-                    self.txt_msg.text = self.txt_msg.text + "\n\(error)" + "\n"
-                    self.contentChanged()
+                    //self.txt_msg.text = self.txt_msg.text + "\n\(error)" + "\n"
+                    self.contentChanged("\n\(error)" + "\n")
                 }
                 else
                 {
@@ -226,6 +286,77 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
             print("\t\thomeManager.primaryHome?.name=\(h)")
         }
 
+    }
+    
+    func updateCharacteristics()
+    {
+        for a in myAccessories
+        {
+            let date = NSDate()
+            let formatter = NSDateFormatter()
+            formatter.timeStyle = .LongStyle
+            print("\t\t\(a.name):\(formatter.stringFromDate(date))")
+            contentChanged(formatter.stringFromDate(date) + "\n")
+            
+            for s in a.services
+            {
+//                print("\t\t\tservices.name=\(s.name)")
+//                print("\t\t\tservices.localizedDescription=\(s.localizedDescription)")
+//                print("\t\t\tservices.accessory.reachable=\(s.accessory?.reachable)")
+                
+                var j:Int = 0
+                for c in s.characteristics
+                {
+                    c.notificationEnabled
+                    c.readValueWithCompletionHandler { error in
+                        dispatch_sync(self.updateQueue) {
+                            
+                            //self.contentChanged("\(s.name):\(s.localizedDescription)\n")
+                            dispatch_async(dispatch_get_main_queue()) {
+                                
+                                if (c.localizedDescription.hasPrefix("目前")) {
+                                    
+                                    if c.localizedDescription.hasPrefix("目前家") {
+                                        if let state = c.value {
+                                            if state.integerValue == 1 {
+                                                self.lbl1.text = "\(c.localizedDescription):Closed"
+                                            } else {
+                                                self.lbl1.text = "\(c.localizedDescription):Open"
+                                            }
+                                        }
+                                    } else if c.localizedDescription.hasPrefix("目前相") {
+                                        self.lbl2.text = "\(c.localizedDescription):\(c.value!)"
+                                    } else if c.localizedDescription.hasPrefix("目前溫") {
+                                        self.lbl3.text = "\(c.localizedDescription):\(c.value!)"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    j++
+                }
+                //print("\t\t--------------------------------------------------------------")
+            }
+            
+        }
+    }
+    
+    func CreateDispatchTimer(interval: UInt64, leeway: UInt64, queue: dispatch_queue_t, block: dispatch_block_t) -> dispatch_source_t
+    {
+        let timer: dispatch_source_t = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, queue)
+
+        dispatch_source_set_timer(timer, dispatch_walltime(nil, 0), interval, leeway)
+        dispatch_source_set_event_handler(timer, block)
+        dispatch_resume(timer)
+        
+        return timer
+    }
+    
+    func RemoveDispatchSource(source: dispatch_source_t)
+    {
+        print("\t\tcancel dispatch !!")
+        dispatch_source_cancel(source)
     }
     
     func updatePrimaryHome()
@@ -286,29 +417,34 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
         let str:String = txt_msg.text + "\(__FUNCTION__)\n"
-        txt_msg.text = str
-        contentChanged()
+        //txt_msg.text = str
+        contentChanged(str)
     }
     
     func home(home: HMHome, didAddAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
         let str:String = txt_msg.text + "\(__FUNCTION__)\n"
-        txt_msg.text = str
-        contentChanged()
+        //txt_msg.text = str
+        contentChanged(str)
     }
     
     func home(home: HMHome, didRemoveAccessory accessory: HMAccessory)
     {
         print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
         let str:String = txt_msg.text + "\(__FUNCTION__)\n"
-        txt_msg.text = str
-        contentChanged()
+        //txt_msg.text = str
+        contentChanged(str)
     }
     
     // MARK: - deinit
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        //NSNotificationCenter.defaultCenter().removeObserver(self)
+        
+        if updateValueTimer != nil {
+            updateValueTimer.invalidate()
+            updateValueTimer = nil
+        }
     }
     
     
@@ -321,8 +457,8 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
         //info.stopAnimating()
 
         let str:String = txt_msg.text + "\(__FUNCTION__).name=\(accessory.name)\n"
-        txt_msg.text = str
-        contentChanged()
+        //txt_msg.text = str
+        contentChanged(str)
     }
     
     func accessoryBrowser(browser: HMAccessoryBrowser, didRemoveNewAccessory accessory: HMAccessory)
@@ -355,11 +491,39 @@ class HomeViewController: UIViewController, HMHomeDelegate, HMHomeManagerDelegat
     
     func accessoryDidUpdateReachability(accessory: HMAccessory)
     {
-        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__):\(accessory.name)")
     }
     
     func accessory(accessory: HMAccessory, service: HMService, didUpdateValueForCharacteristic characteristic: HMCharacteristic)
     {
-        print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        if characteristic.value == nil {
+            return;
+        }
+        if (characteristic.localizedDescription.hasPrefix("目前")) {
+            if characteristic.localizedDescription.hasPrefix("目前家") {
+                if let state = characteristic.value {
+                    if state.integerValue == 1 {
+                        self.lbl1.text = "\(characteristic.localizedDescription):Closed"
+                    } else {
+                        self.lbl1.text = "\(characteristic.localizedDescription):Open"
+                    }
+                }
+            } else if characteristic.localizedDescription.hasPrefix("目前相") {
+                self.lbl2.text = "\(characteristic.localizedDescription):\(characteristic.value!)"
+            } else if characteristic.localizedDescription.hasPrefix("目前溫") {
+                self.lbl3.text = "\(characteristic.localizedDescription):\(characteristic.value!)"
+            }
+        }
+        
+        //print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)")
+        characteristic.readValueWithCompletionHandler { error in
+            dispatch_sync(self.updateQueue) {
+                
+                dispatch_async(dispatch_get_main_queue()) {
+                    print("\(NSStringFromClass(self.dynamicType))-\(__FUNCTION__)=\(characteristic.localizedDescription):\(characteristic.value)")
+                }
+            }
+        }
+
     }
 }
